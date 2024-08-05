@@ -29,6 +29,7 @@
     <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".env" />
     <Content Include="README.md" />
     <Content Include="requirements.txt" />
     <Content Include="static\styles.css" />
