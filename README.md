@@ -38,7 +38,7 @@ API_KEY = 'your_api_key_here'
 1. Start the Flask development server:
 
 ```
-python app.py
+python Weather.py
 ```
 
 2. Open a web browser and go to `http://localhost:5000`.
@@ -46,7 +46,7 @@ python app.py
 
 ## Project Structure
 
-- `app.py`: Main Flask application file
+- `Weather.py`: Main Flask application file
 - `templates/index.html`: HTML template for the weather app
 - `static/styles.css`: CSS styles for the app
 - `requirements.txt`: List of Python dependencies
