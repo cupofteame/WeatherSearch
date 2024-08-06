@@ -18,12 +18,14 @@
         <p class="error">{{ error }}</p>
         {% elif weather_data %}
         <div class="weather-info">
-            <h2>{{ weather_data['location']['name'] }}, {{ weather_data['location']['country'] }}</h2>
-            <p>Temperature: {{ weather_data['current']['temp_c'] }}&deg;C / {{ weather_data['current']['temp_f'] }}&deg;F</p>
-            <p>Condition: {{ weather_data['current']['condition']['text'] }}</p>
-            <img src="https:{{ weather_data['current']['condition']['icon'] }}" alt="{{ weather_data['current']['condition']['text'] }}">
-            <p>Humidity: {{ weather_data['current']['humidity'] }}%</p>
-            <p>Wind: {{ weather_data['current']['wind_kph'] }} km/h</p>
+            <h2>{{ weather_data['city'] }}, {{ weather_data['country'] }}</h2>
+            <p>Temperature: {{ weather_data['temp_celsius'] }}&deg;C / {{ weather_data['temp_fahrenheit'] }}&deg;F</p>
+            <p>Condition: {{ weather_data['description'] }}</p>
+            <div class="weather-icon">
+                <img src="http://openweathermap.org/img/wn/{{ weather_data['icon'] }}@2x.png" alt="{{ weather_data['description'] }}">
+            </div>
+            <p>Humidity: {{ weather_data['humidity'] }}%</p>
+            <p>Wind: {{ weather_data['wind_speed'] }} m/s</p>
         </div>
         {% endif %}
     </div>
