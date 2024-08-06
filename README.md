@@ -26,7 +26,7 @@ This is a simple Flask-based weather application that allows users to check the 
 
 ## Configuration
 
-1. Sign up for a free API key at [WeatherAPI.com](https://www.weatherapi.com/).
+1. Sign up for a free API key at [OpenWeatherMap.com](https://openweathermap.org/api).
 2. Create a `.env` file in the root directory of the project.
 3. Add your API key to the `.env` file:
 
