@@ -71,6 +71,3 @@ def index():
                 error = f"An error occurred: {str(e)}"
 
     return render_template('index.html', weather_data=weather_data, error=error)
-
-if __name__ == '__main__':
-    app.run(debug=True)
