@@ -1,22 +1,29 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column; /* Ensure vertical alignment */
 }
 
 .container {
-    max-width: 600px;
-    margin: 50px auto;
+    width: 600px; /* Fixed width */
+    height: 600px; /* Fixed height */
     padding: 20px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Add scroll if content overflows */
 }
 
 h1 {
     text-align: center;
     color: #333;
+    font-size: 2em;
 }
 
 form {
@@ -40,7 +47,12 @@ button {
     border: none;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
+
+    button:hover {
+        background-color: #45a049;
+    }
 
 .weather-info {
     text-align: center;
@@ -57,3 +69,25 @@ button {
     color: red;
     text-align: center;
 }
+
+.disclaimer {
+    text-align: center;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.github-icon {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .github-icon a {
+        color: #333;
+        font-size: 2em;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .github-icon a:hover {
+            color: #000;
+        }
