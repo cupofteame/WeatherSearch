@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Weather App</h1>
         <form method="POST">
-            <input type="text" name="city" placeholder="Enter city name" required>
+            <input type="text" name="location" placeholder="Enter a city, state, or country" required>
             <button type="submit">Search</button>
         </form>
 
@@ -28,6 +28,8 @@
             <p>Wind: {{ weather_data['wind_speed'] }} m/s</p>
         </div>
         {% endif %}
+
+        <p class="disclaimer">Disclaimer: The location you search may not be exactly what you look for. Please verify with other sources.</p>
     </div>
 </body>
 </html>
