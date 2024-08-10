@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -11,7 +12,7 @@
     <div class="container">
         <h1>Weather App</h1>
         <form method="POST">
-            <input type="text" name="location" placeholder="Enter a location, please be accuarte" required>
+            <input type="text" name="location" placeholder="Enter a location, please be accurate" required>
             <button type="submit">Search</button>
         </form>
 
@@ -28,6 +29,15 @@
             <p>Humidity: {{ weather_data['humidity'] }}%</p>
             <p>Wind: {{ weather_data['wind_speed'] }} m/s</p>
         </div>
+
+        <div class="forecast-info" id="forecastSection">
+            <h2>5-Day Forecast</h2>
+            <div class="forecast-scroll">
+                <div class="forecast-items" id="forecast">
+                    <!-- Forecast items will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
         {% endif %}
 
         <p class="disclaimer">Disclaimer: This is an example site, please expect errors/bugs.</p>
@@ -38,5 +48,42 @@
             </a>
         </div>
     </div>
+
+    <script>
+        const forecastData = {{ forecast_data | tojson }};
+
+        function showForecast() {
+            const forecastContainer = document.getElementById('forecast');
+            forecastContainer.innerHTML = '';
+
+            // Filter the forecast data to get only the 5-day forecast
+            const filteredData = forecastData.filter((forecast, index) => index % 8 === 0);
+
+            filteredData.forEach((forecast) => {
+                const date = new Date(forecast.dt_txt);
+                const day = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+                const forecastItem = document.createElement('div');
+                forecastItem.className = 'forecast-item';
+                forecastItem.innerHTML = `
+                    <p>${day}</p>
+                    <p>Temp: ${forecast.main.temp}&deg;C / ${(forecast.main.temp * 9/5 + 32).toFixed(2)}&deg;F</p>
+                    <p>Condition: ${forecast.weather[0].description}</p>
+                    <div class="forecast-icon">
+                        <img src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
+                    </div>
+                `;
+                forecastContainer.appendChild(forecastItem);
+            });
+        }
+
+        // Initialize the forecast
+        if (forecastData.length > 0) {
+            showForecast();
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

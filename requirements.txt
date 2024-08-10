@@ -1,5 +1,4 @@
 Flask
-   requests
-   python-dotenv
-fuzzywuzzy[speedup]
+requests
+python-dotenv
 geopy

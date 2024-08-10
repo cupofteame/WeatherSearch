@@ -2,19 +2,17 @@ from flask import Flask, render_template, request
 import requests
 import os
 from dotenv import load_dotenv
-from fuzzywuzzy import process
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
+from datetime import datetime
 
 load_dotenv()
 
 app = Flask(__name__)
 
 API_KEY = os.getenv('API_KEY')  # Get API key from environment variable
-API_URL = 'http://api.openweathermap.org/data/2.5/weather'
-
-# Predefined list of known locations for fuzzy matching
-KNOWN_LOCATIONS = ["New York, USA", "Los Angeles, USA", "London, UK", "Paris, France", "Berlin, Germany"]
+CURRENT_WEATHER_URL = 'http://api.openweathermap.org/data/2.5/weather'
+FORECAST_URL = 'http://api.openweathermap.org/data/2.5/forecast'
 
 geolocator = Nominatim(user_agent="weather_app")
 
@@ -30,7 +28,9 @@ def geocode_location(location):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     weather_data = None
+    forecast_data = None
     error = None
+    unique_days = []
 
     if request.method == 'POST':
         location = request.form.get('location')
@@ -39,21 +39,14 @@ def index():
                 lat, lon = geocode_location(location)
 
                 if lat is None or lon is None:
-                    # If location not found, find the closest match
-                    best_match = process.extractOne(location, KNOWN_LOCATIONS)
-                    if best_match:
-                        location = best_match[0]
-                        lat, lon = geocode_location(location)
-
-                if lat is None or lon is None:
                     error = "Location not found."
                 else:
-                    # Fetch weather data using latitude and longitude
-                    response_metric = requests.get(f"{API_URL}?lat={lat}&lon={lon}&appid={API_KEY}&units=metric")
+                    # Fetch current weather data using latitude and longitude
+                    response_metric = requests.get(f"{CURRENT_WEATHER_URL}?lat={lat}&lon={lon}&appid={API_KEY}&units=metric")
                     response_metric.raise_for_status()
                     weather_data_metric = response_metric.json()
 
-                    response_imperial = requests.get(f"{API_URL}?lat={lat}&lon={lon}&appid={API_KEY}&units=imperial")
+                    response_imperial = requests.get(f"{CURRENT_WEATHER_URL}?lat={lat}&lon={lon}&appid={API_KEY}&units=imperial")
                     response_imperial.raise_for_status()
                     weather_data_imperial = response_imperial.json()
 
@@ -67,7 +60,26 @@ def index():
                         'humidity': weather_data_metric['main']['humidity'],
                         'wind_speed': weather_data_metric['wind']['speed']
                     }
+
+                    # Fetch forecast data
+                    response_forecast = requests.get(f"{FORECAST_URL}?lat={lat}&lon={lon}&appid={API_KEY}&units=metric")
+                    response_forecast.raise_for_status()
+                    forecast_data = response_forecast.json()['list']
+
+                    # Filter out the current day's forecast and format the dates
+                    today = datetime.now().date()
+                    forecast_data = [
+                        forecast for forecast in forecast_data
+                        if datetime.strptime(forecast['dt_txt'], '%Y-%m-%d %H:%M:%S').date() != today
+                    ]
+
+                    # Extract unique days from forecast data
+                    unique_days = list({datetime.strptime(forecast['dt_txt'], '%Y-%m-%d %H:%M:%S').date().isoformat() for forecast in forecast_data})
+
             except requests.RequestException as e:
                 error = f"An error occurred: {str(e)}"
 
-    return render_template('index.html', weather_data=weather_data, error=error)
+    return render_template('index.html', weather_data=weather_data, forecast_data=forecast_data, unique_days=unique_days, error=error)
+
+if __name__ == '__main__':
+    app.run(debug=True)

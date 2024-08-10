@@ -1,78 +1,74 @@
+/* Custom styles to complement Bootstrap */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column; /* Ensure vertical alignment */
+    background-color: #f4f4f4;
 }
 
 .container {
-    width: 600px; /* Fixed width */
-    height: 600px; /* Fixed height */
+    margin-top: 50px;
     padding: 20px;
-    background-color: white;
-    border-radius: 10px;
+    background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* Add scroll if content overflows */
+    border-radius: 8px;
 }
 
 h1 {
     text-align: center;
     color: #333;
-    font-size: 2em;
+    margin-bottom: 20px;
 }
 
 form {
     display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
 input[type="text"] {
-    flex-grow: 1;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px 0 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 70%;
+    margin-right: 10px;
 }
 
-button {
+button[type="submit"] {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-    button:hover {
-        background-color: #45a049;
+    button[type="submit"]:hover {
+        background-color: #0056b3;
     }
-
-.weather-info {
-    text-align: center;
-}
-
-.weather-icon {
-    display: inline-block;
-    background-color: #e0e0e0;
-    border-radius: 50%;
-    padding: 10px;
-}
 
 .error {
     color: red;
     text-align: center;
 }
 
+.weather-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.weather-icon img {
+    width: 100px;
+    height: 100px;
+}
+
+.forecast-info {
+    text-align: center;
+}
+
 .disclaimer {
     text-align: center;
-    font-size: 0.9em;
+    font-size: 12px;
     color: #777;
 }
 
@@ -83,11 +79,29 @@ button {
 
     .github-icon a {
         color: #333;
-        font-size: 2em;
-        text-decoration: none;
+        font-size: 24px;
         transition: color 0.3s;
     }
 
         .github-icon a:hover {
             color: #000;
         }
+
+.forecast-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.forecast-item {
+    display: inline-block;
+    width: 200px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.forecast-icon, .weather-icon {
+    display: inline-block;
+    background-color: #c0c0c0;
+    border-radius: 50%;
+    padding: 8px;
+}

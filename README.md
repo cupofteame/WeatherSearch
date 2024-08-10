@@ -1,14 +1,15 @@
 # Weather App
 
-This is a Flask-based weather application that allows users to check the current weather conditions for a specified location.
+This is a Flask-based weather application that allows users to check the current weather conditions and a 5-day forecast for a specified location.
 
 ## Features
 
 - Search for weather information by location name
-- Displays temperature in both Celsius and Fahrenheit
+- Displays current temperature in both Celsius and Fahrenheit
 - Shows current weather condition with an icon
 - Provides humidity and wind speed information
-- Uses geocoding to find locations and supports fuzzy matching
+- Uses geocoding to find locations
+- Displays a 5-day weather forecast
 
 ## Prerequisites
 
@@ -41,7 +42,7 @@ This is a Flask-based weather application that allows users to check the current
    python Weather.py
    ```
 2. Open a web browser and go to `http://localhost:5000`.
-3. Enter a location name in the search box and click "Search" to get the current weather information.
+3. Enter a location name in the search box and click "Search" to get the current weather information and forecast.
 
 ## Project Structure
 
@@ -56,28 +57,7 @@ This is a Flask-based weather application that allows users to check the current
 - Flask: Web framework
 - requests: HTTP library for API requests
 - python-dotenv: Loading environment variables
-- fuzzywuzzy: Fuzzy string matching
 - geopy: Geocoding library
-
-## Customization
-
-You can customize the appearance of the app by modifying the `static/styles.css` file. The app uses Font Awesome icons for enhanced visual appeal.
-
-## Geocoding and Location Matching
-
-The app uses the Nominatim geocoding service to convert location names into coordinates. If an exact match is not found, it attempts to find the closest match from a predefined list of known locations.
-
-## Error Handling
-
-The app includes error handling for various scenarios, such as location not found or API request failures. Error messages are displayed to the user when necessary.
-
-## Disclaimer
-
-A disclaimer is included in the user interface to indicate that this is an example site and users should expect potential errors or bugs.
-
-## GitHub Link
-
-The app includes a GitHub icon that links to the project repository.
 
 ## Troubleshooting
 
