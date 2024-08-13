@@ -1,15 +1,21 @@
 {
-     "version": 2,
-     "builds": [
-       {
-         "src": "Weather.py",
-         "use": "@vercel/python"
-       }
-     ],
-     "routes": [
-       {
-         "src": "/(.*)",
-         "dest": "Weather.py"
-       }
-     ]
-   }
+  "version": 2,
+  "builds": [
+    {
+      "src": "Weather.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "headers": {
+        "Cache-Control": "max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "Weather.py"
+    }
+  ]
+}

@@ -3,81 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Modern Weather App</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v='1.0') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Weather App</h1>
-        <form method="POST">
-            <input type="text" name="location" placeholder="Enter a location, please be accurate" required>
-            <button type="submit">Search</button>
-        </form>
+        <header>
+            <h1><i class="fas fa-cloud-sun"></i> Weather App </h1>
+        </header>
+        <main>
+            <section class="search-section">
+                <form method="POST" class="search-form">
+                    <input type="text" name="location" placeholder="Enter a location" required>
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </section>
 
-        {% if error %}
-        <p class="error">{{ error }}</p>
-        {% elif weather_data %}
-        <div class="weather-info">
-            <h2>{{ weather_data['city'] }}, {{ weather_data['country'] }}</h2>
-            <p>Temperature: {{ weather_data['temp_celsius'] }}&deg;C / {{ weather_data['temp_fahrenheit'] }}&deg;F</p>
-            <p>Condition: {{ weather_data['description'] }}</p>
-            <div class="weather-icon">
-                <img src="http://openweathermap.org/img/wn/{{ weather_data['icon'] }}@2x.png" alt="{{ weather_data['description'] }}">
-            </div>
-            <p>Humidity: {{ weather_data['humidity'] }}%</p>
-            <p>Wind: {{ weather_data['wind_speed'] }} m/s</p>
-        </div>
-
-        <div class="forecast-info" id="forecastSection">
-            <h2>5-Day Forecast</h2>
-            <div class="forecast-scroll">
-                <div class="forecast-items" id="forecast">
-                    <!-- Forecast items will be inserted here by JavaScript -->
+            {% if error %}
+            <section class="error-section">
+                <p class="error"><i class="fas fa-exclamation-circle"></i> {{ error }}</p>
+            </section>
+            {% elif weather_data %}
+            <section class="weather-section">
+                <div class="current-weather">
+                    <h2>{{ weather_data['city'] }}, {{ weather_data['country'] }}</h2>
+                    <div class="weather-icon">
+                        <img src="http://openweathermap.org/img/wn/{{ weather_data['icon'] }}@2x.png" alt="{{ weather_data['description'] }}">
+                    </div>
+                    <div class="weather-details">
+                        <p class="temperature">
+                            <i class="fas fa-thermometer-half"></i>
+                            {{ weather_data['temp_celsius'] }}&deg;C / {{ weather_data['temp_fahrenheit'] }}&deg;F
+                        </p>
+                        <p class="condition"><i class="fas fa-cloud"></i> {{ weather_data['description'] }}</p>
+                        <p class="humidity"><i class="fas fa-tint"></i> Humidity: {{ weather_data['humidity'] }}%</p>
+                        <p class="wind"><i class="fas fa-wind"></i> Wind: {{ weather_data['wind_speed'] }} m/s</p>
+                    </div>
                 </div>
+            </section>
+
+            <section class="forecast-section">
+                <h2><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h2>
+                <div class="forecast-scroll">
+                    <div class="forecast-items" id="forecast">
+                        <!-- Forecast items will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+        </main>
+
+        <footer>
+            <p class="disclaimer"><i class="fas fa-info-circle"></i> Disclaimer: This is an example site, please expect errors/bugs.</p>
+            <div class="github-icon">
+                <a href="https://github.com/cupofteame/WeatherSearch" target="_blank" aria-label="GitHub Repository">
+                    <i class="fab fa-github"></i>
+                </a>
             </div>
-        </div>
-        {% endif %}
-
-        <p class="disclaimer">Disclaimer: This is an example site, please expect errors/bugs.</p>
-
-        <div class="github-icon">
-            <a href="https://github.com/cupofteame/WeatherSearch" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
-        </div>
+        </footer>
     </div>
 
     <script>
         const forecastData = {{ forecast_data | tojson }};
-
         function showForecast() {
             const forecastContainer = document.getElementById('forecast');
             forecastContainer.innerHTML = '';
-
-            // Filter the forecast data to get only the 5-day forecast
             const filteredData = forecastData.filter((forecast, index) => index % 8 === 0);
-
             filteredData.forEach((forecast) => {
                 const date = new Date(forecast.dt_txt);
                 const day = date.toLocaleDateString('en-US', { weekday: 'long' });
-
                 const forecastItem = document.createElement('div');
                 forecastItem.className = 'forecast-item';
                 forecastItem.innerHTML = `
-                    <p>${day}</p>
-                    <p>Temp: ${forecast.main.temp}&deg;C / ${(forecast.main.temp * 9/5 + 32).toFixed(2)}&deg;F</p>
-                    <p>Condition: ${forecast.weather[0].description}</p>
+                    <p class="forecast-day">${day}</p>
                     <div class="forecast-icon">
                         <img src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
                     </div>
+                    <p class="forecast-temp">${forecast.main.temp}&deg;C / ${(forecast.main.temp * 9/5 + 32).toFixed(2)}&deg;F</p>
+                    <p class="forecast-condition">${forecast.weather[0].description}</p>
                 `;
                 forecastContainer.appendChild(forecastItem);
             });
         }
-
-        // Initialize the forecast
         if (forecastData.length > 0) {
             showForecast();
         }
