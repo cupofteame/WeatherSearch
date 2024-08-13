@@ -16,9 +16,12 @@
         <main>
             <section class="search-section">
                 <form method="POST" class="search-form">
-                    <input type="text" name="location" placeholder="Enter a location" required>
+                    <input type="text" name="location" id="location-input" placeholder="Enter a location" required>
                     <button type="submit"><i class="fas fa-search"></i></button>
                 </form>
+                <div id="loading" class="mt-2" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Getting your location...
+                </div>
             </section>
 
             {% if error %}
@@ -65,34 +68,9 @@
         </footer>
     </div>
 
-    <script>
-        const forecastData = {{ forecast_data | tojson }};
-        function showForecast() {
-            const forecastContainer = document.getElementById('forecast');
-            forecastContainer.innerHTML = '';
-            const filteredData = forecastData.filter((forecast, index) => index % 8 === 0);
-            filteredData.forEach((forecast) => {
-                const date = new Date(forecast.dt_txt);
-                const day = date.toLocaleDateString('en-US', { weekday: 'long' });
-                const forecastItem = document.createElement('div');
-                forecastItem.className = 'forecast-item';
-                forecastItem.innerHTML = `
-                    <p class="forecast-day">${day}</p>
-                    <div class="forecast-icon">
-                        <img src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
-                    </div>
-                    <p class="forecast-temp">${forecast.main.temp}&deg;C / ${(forecast.main.temp * 9/5 + 32).toFixed(2)}&deg;F</p>
-                    <p class="forecast-condition">${forecast.weather[0].description}</p>
-                `;
-                forecastContainer.appendChild(forecastItem);
-            });
-        }
-        if (forecastData.length > 0) {
-            showForecast();
-        }
-    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>
