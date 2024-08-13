@@ -68,6 +68,32 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Handle form submission
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const location = this.querySelector('input[name="location"]').value;
+        loadingIndicator.style.display = 'block';
+
+        fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: `location=${encodeURIComponent(location)}`
+        }).then(response => response.json())
+            .then(data => {
+                loadingIndicator.style.display = 'none';
+                updateWeatherDisplay(data);
+            })
+            .catch(error => {
+                loadingIndicator.style.display = 'none';
+                console.error("An error occurred while fetching weather data:", error);
+                updateWeatherDisplay({ error: "An error occurred while fetching weather data." });
+            });
+    });
+
+    // Geolocation handling
     if ("geolocation" in navigator) {
         loadingIndicator.style.display = 'block';
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -93,39 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         }, function (error) {
             loadingIndicator.style.display = 'none';
-            console.error("Unable to retrieve your location. Error:", error);
-            updateWeatherDisplay({ error: "Unable to retrieve your location. Please enter a location manually." });
+            console.error("Geolocation error:", error);
+            updateWeatherDisplay({ error: "Unable to retrieve your location. Please use the search form." });
         });
     } else {
-        console.warn("Geolocation is not supported by your browser");
-        updateWeatherDisplay({ error: "Geolocation is not supported by your browser. Please enter a location manually." });
+        updateWeatherDisplay({ error: "Geolocation is not supported by your browser. Please use the search form." });
     }
-
-    // Handle manual location search
-    searchForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const locationInput = document.getElementById('location-input');
-        const location = locationInput.value.trim();
-
-        if (location) {
-            loadingIndicator.style.display = 'block';
-            fetch('/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: `location=${encodeURIComponent(location)}`
-            }).then(response => response.json())
-                .then(data => {
-                    loadingIndicator.style.display = 'none';
-                    updateWeatherDisplay(data);
-                })
-                .catch(error => {
-                    loadingIndicator.style.display = 'none';
-                    console.error("An error occurred while fetching weather data:", error);
-                    updateWeatherDisplay({ error: "An error occurred while fetching weather data." });
-                });
-        }
-    });
 });

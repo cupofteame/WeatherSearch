@@ -4,73 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Weather App</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v='1.0') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-cloud-sun"></i> Weather App </h1>
+            <h1>Weather App</h1>
         </header>
+
+        <form class="search-form" action="/" method="post">
+            <input type="text" name="location" placeholder="Enter city or location" required>
+            <button type="submit"><i class="fas fa-search"></i> Search</button>
+        </form>
+
+        <div id="loading" style="display: none;">Getting your location...</div>
+
         <main>
-            <section class="search-section">
-                <form method="POST" class="search-form">
-                    <input type="text" name="location" id="location-input" placeholder="Enter a location" required>
-                    <button type="submit"><i class="fas fa-search"></i></button>
-                </form>
-                <div id="loading" class="mt-2" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Getting your location...
-                </div>
-            </section>
-
-            {% if error %}
-            <section class="error-section">
-                <p class="error"><i class="fas fa-exclamation-circle"></i> {{ error }}</p>
-            </section>
-            {% elif weather_data %}
-            <section class="weather-section">
-                <div class="current-weather">
-                    <h2>{{ weather_data['city'] }}, {{ weather_data['country'] }}</h2>
-                    <div class="weather-icon">
-                        <img src="http://openweathermap.org/img/wn/{{ weather_data['icon'] }}@2x.png" alt="{{ weather_data['description'] }}">
-                    </div>
-                    <div class="weather-details">
-                        <p class="temperature">
-                            <i class="fas fa-thermometer-half"></i>
-                            {{ weather_data['temp_celsius'] }}&deg;C / {{ weather_data['temp_fahrenheit'] }}&deg;F
-                        </p>
-                        <p class="condition"><i class="fas fa-cloud"></i> {{ weather_data['description'] }}</p>
-                        <p class="humidity"><i class="fas fa-tint"></i> Humidity: {{ weather_data['humidity'] }}%</p>
-                        <p class="wind"><i class="fas fa-wind"></i> Wind: {{ weather_data['wind_speed'] }} m/s</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="forecast-section">
-                <h2><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h2>
-                <div class="forecast-scroll">
-                    <div class="forecast-items" id="forecast">
-                        <!-- Forecast items will be inserted here by JavaScript -->
-                    </div>
-                </div>
-            </section>
-            {% endif %}
+            <!-- Weather data will be inserted here by JavaScript -->
         </main>
 
         <footer>
-            <p class="disclaimer"><i class="fas fa-info-circle"></i> Disclaimer: This is an example site, please expect errors/bugs.</p>
+            <p class="disclaimer">Disclaimer: This is an example site, please expect errors/bugs.</p>
             <div class="github-icon">
-                <a href="https://github.com/cupofteame/WeatherSearch" target="_blank" aria-label="GitHub Repository">
+                <a href="https://github.com/yourusername/weather-app" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-github"></i>
                 </a>
             </div>
         </footer>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>
