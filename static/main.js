@@ -1,22 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const loadingIndicator = document.getElementById('loading');
+    const loadingSpinner = document.getElementById('loading');
     const searchForm = document.querySelector('.search-form');
     const mainContent = document.querySelector('main');
+    const weatherContent = document.getElementById('weather-content');
+
+    function showLoading() {
+        loadingSpinner.style.display = 'block';
+        weatherContent.style.display = 'none';
+    }
+
+    function hideLoading() {
+        loadingSpinner.style.display = 'none';
+        weatherContent.style.display = 'block';
+    }
 
     function updateWeatherDisplay(data) {
-        // Clear existing content
-        mainContent.innerHTML = '';
+        weatherContent.innerHTML = '';
 
         if (data.error) {
             const errorSection = document.createElement('section');
-            errorSection.className = 'error-section';
+            errorSection.className = 'error-section fade-in';
             errorSection.innerHTML = `
                 <p class="error"><i class="fas fa-exclamation-circle"></i> ${data.error}</p>
             `;
-            mainContent.appendChild(errorSection);
+            weatherContent.appendChild(errorSection);
         } else if (data.weather_data) {
             const weatherSection = document.createElement('section');
-            weatherSection.className = 'weather-section';
+            weatherSection.className = 'weather-section fade-in';
             weatherSection.innerHTML = `
                 <div class="current-weather">
                     <h2>${data.weather_data.city}, ${data.weather_data.country}</h2>
@@ -34,18 +44,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </div>
             `;
-            mainContent.appendChild(weatherSection);
+            weatherContent.appendChild(weatherSection);
 
             if (data.forecast_data && data.forecast_data.length > 0) {
                 const forecastSection = document.createElement('section');
-                forecastSection.className = 'forecast-section';
+                forecastSection.className = 'forecast-section fade-in';
                 forecastSection.innerHTML = `
                     <h2><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h2>
                     <div class="forecast-scroll">
                         <div class="forecast-items" id="forecast"></div>
                     </div>
                 `;
-                mainContent.appendChild(forecastSection);
+                weatherContent.appendChild(forecastSection);
 
                 const forecastContainer = document.getElementById('forecast');
                 const filteredData = data.forecast_data.filter((forecast, index) => index % 8 === 0);
@@ -66,13 +76,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         }
+
+        hideLoading();
     }
 
-    // Handle form submission
-    searchForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const location = this.querySelector('input[name="location"]').value;
-        loadingIndicator.style.display = 'block';
+    function preloadWeatherIcons(iconCodes) {
+        iconCodes.forEach(iconCode => {
+            const img = new Image();
+            img.src = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        });
+    }
+
+    function fetchWeatherData(params) {
+        showLoading();
 
         fetch('/', {
             method: 'POST',
@@ -80,46 +96,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'X-Requested-With': 'XMLHttpRequest'
             },
-            body: `location=${encodeURIComponent(location)}`
+            body: new URLSearchParams(params)
         }).then(response => response.json())
             .then(data => {
-                loadingIndicator.style.display = 'none';
                 updateWeatherDisplay(data);
+                if (data.weather_data) {
+                    preloadWeatherIcons([data.weather_data.icon]);
+                }
+                if (data.forecast_data) {
+                    const forecastIcons = data.forecast_data
+                        .filter((forecast, index) => index % 8 === 0)
+                        .map(forecast => forecast.weather[0].icon);
+                    preloadWeatherIcons(forecastIcons);
+                }
             })
             .catch(error => {
-                loadingIndicator.style.display = 'none';
                 console.error("An error occurred while fetching weather data:", error);
                 updateWeatherDisplay({ error: "An error occurred while fetching weather data." });
             });
+    }
+
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const location = this.querySelector('input[name="location"]').value;
+        fetchWeatherData({ location: location });
     });
 
-    // Geolocation handling
     if ("geolocation" in navigator) {
-        loadingIndicator.style.display = 'block';
+        showLoading();
         navigator.geolocation.getCurrentPosition(function (position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
-
-            fetch('/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: `lat=${lat}&lon=${lon}`
-            }).then(response => response.json())
-                .then(data => {
-                    loadingIndicator.style.display = 'none';
-                    updateWeatherDisplay(data);
-                })
-                .catch(error => {
-                    loadingIndicator.style.display = 'none';
-                    console.error("An error occurred while fetching weather data:", error);
-                    updateWeatherDisplay({ error: "An error occurred while fetching weather data." });
-                });
+            fetchWeatherData({ lat: lat, lon: lon });
         }, function (error) {
-            loadingIndicator.style.display = 'none';
             console.error("Geolocation error:", error);
+            hideLoading();
             updateWeatherDisplay({ error: "Unable to retrieve your location. Please use the search form." });
         });
     } else {

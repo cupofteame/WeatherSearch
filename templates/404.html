@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Oops!</h1>
+        </header>
+
+        <main class="error-page">
+            <h2>404 - Page Not Found</h2>
+            <p>We can't find the page you're looking for.</p>
+            <a href="/" class="back-home"><i class="fas fa-home"></i> Back to Home</a>
+        </main>
+
+        <footer>
+            <p class="disclaimer"> Disclaimer: This is an example site, please expect errors/bugs.</p>
+            <div class="github-icon">
+                <a href="https://github.com/cupofteame/WeatherSearch" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

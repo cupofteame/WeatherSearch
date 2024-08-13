@@ -34,6 +34,7 @@
     <Content Include="README.md" />
     <Content Include="requirements.txt" />
     <Content Include="static\styles.css" />
+    <Content Include="templates\404.html" />
     <Content Include="templates\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

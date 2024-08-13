@@ -12,6 +12,7 @@
 }
 
 
+
 body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
@@ -184,3 +185,70 @@ button[type="submit"] {
         width: 150px;
     }
 }
+
+.loading-spinner {
+    display: none;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 1s ease-in-out infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.error-page {
+    text-align: center;
+    margin-top: 50px;
+}
+
+    .error-page h2 {
+        color: var(--highlight-color);
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .error-page p {
+        color: var(--text-secondary);
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+
+.back-home {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+    .back-home:hover {
+        background-color: var(--highlight-color);
+    }
+
+    .back-home i {
+        margin-right: 8px;
+    }
