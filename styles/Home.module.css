@@ -223,21 +223,35 @@
 
 .forecastItems {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   overflow-x: auto;
-  padding-bottom: 8px;
+  padding: 16px 0; /* Added top padding */
+  margin: 0 -12px;
 }
 
 .forecastItem {
   text-align: center;
-  min-width: 80px;
-  padding: 8px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
+  min-width: 100px;
+  padding: 12px;
+  margin: 8px 12px; /* Added vertical margin */
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
 .forecastItem:hover {
-  background-color: var(--accent-color);
+  background-color: var(--highlight-color);
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.forecastItem:hover .forecastDate,
+.forecastItem:hover .forecastTemp {
+  color: var(--bg-primary);
+}
+
+.forecastItem:hover .forecastIcon {
+  transform: scale(1.1);
+  color: var(--bg-primary);
 }
 
 .forecastDate {
@@ -250,16 +264,6 @@
   font-size: 32px;
   color: var(--highlight-color);
   margin: 8px 0;
-}
-
-.forecastItem:hover .forecastIcon {
-  transform: scale(1.1);
-}
-
-.forecastTemp {
-  font-size: 14px;  /* Reduced from 16px to fit both temperatures */
-  font-weight: bold;
-  color: var(--text-primary);
 }
 
 /* Add a subtle pulse animation to the search button */
