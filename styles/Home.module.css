@@ -1,0 +1,286 @@
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: var(--bg-secondary);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+}
+
+.main {
+  text-align: center;
+}
+
+.title {
+  color: var(--highlight-color);
+  margin-bottom: 30px;
+}
+
+.searchForm {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.searchInputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-primary);
+  border-radius: 25px;
+  padding: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.searchInputWrapper:focus-within {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: var(--text-primary);
+  width: 250px;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--text-secondary);
+}
+
+.searchButton {
+  background-color: var(--highlight-color);
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.searchButton:hover {
+  background-color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.searchButton:active {
+  transform: scale(0.95);
+}
+
+.error {
+  color: var(--highlight-color);
+  font-weight: bold;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.disclaimer {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.githubIcon {
+  margin-top: 20px;
+}
+
+.githubIcon a {
+  color: var(--text-secondary);
+  font-size: 28px;
+  transition: color 0.3s;
+}
+
+.githubIcon a:hover {
+  color: var(--highlight-color);
+}
+
+/* Add more styles as needed */
+
+.weatherContainer {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.weatherContainer:hover {
+  transform: translateY(-5px);
+}
+
+.currentWeather {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.location {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.location i {
+  margin-right: 8px;
+  color: var(--highlight-color);
+}
+
+.weatherMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.weatherIcon {
+  font-size: 64px;
+  color: var(--highlight-color);
+}
+
+.temperature {
+  font-size: 36px;  /* Reduced from 48px to fit both temperatures */
+  font-weight: bold;
+  margin-left: 16px;
+  display: flex;
+  align-items: baseline;
+}
+
+.tempValue {
+  color: var(--highlight-color);
+}
+
+.tempUnit {
+  font-size: 24px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  margin-left: 5px;
+  transition: color 0.3s ease;
+}
+
+.tempUnit:hover {
+  color: var(--highlight-color);
+}
+
+.description {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  text-transform: capitalize;
+}
+
+.weatherDetails {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.humidityItem:hover {
+  background-color: rgba(0, 119, 182, 0.2);
+}
+
+.windItem:hover {
+  background-color: rgba(106, 137, 204, 0.2);
+}
+
+.forecast {
+  border-top: 1px solid var(--accent-color);
+  padding-top: 24px;
+}
+
+.forecastTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.forecastTitle i {
+  margin-right: 8px;
+  color: var(--highlight-color);
+}
+
+.forecastItems {
+  display: flex;
+  justify-content: space-between;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.forecastItem {
+  text-align: center;
+  min-width: 80px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.forecastItem:hover {
+  background-color: var(--accent-color);
+}
+
+.forecastDate {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.forecastIcon {
+  font-size: 32px;
+  color: var(--highlight-color);
+  margin: 8px 0;
+}
+
+.forecastItem:hover .forecastIcon {
+  transform: scale(1.1);
+}
+
+.forecastTemp {
+  font-size: 14px;  /* Reduced from 16px to fit both temperatures */
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+/* Add a subtle pulse animation to the search button */
+.searchForm button {
+  transition: transform 0.3s ease;
+}
+
+.searchForm button:hover {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Add more styles as needed */
+
+.loading {
+  color: var(--text-secondary);
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+/* Add more styles as needed */
